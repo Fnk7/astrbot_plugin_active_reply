@@ -1,0 +1,89 @@
+{
+  "enable": {
+    "description": "启用主动回复",
+    "type": "bool",
+    "default": false
+  },
+  "default_possibility": {
+    "description": "兜底概率",
+    "type": "float",
+    "default": 0.0,
+    "hint": "消息未命中任何规则时使用的回复概率，取值范围 0-1。0 表示未命中规则时不回复。",
+    "slider": {
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    }
+  },
+  "read_the_room_enable": {
+    "description": "读空气拦截",
+    "type": "bool",
+    "default": true,
+    "hint": "开启后，主动回复触发时 LLM 会依据该回复天然携带的会话上下文判断当前是否适合插话；若认为不该插话，可调用拦截工具拒绝本次回复（同一轮 LLM 调用内完成，不产生额外调用）。"
+  },
+  "keyword_rules": {
+    "description": "关键词规则",
+    "type": "template_list",
+    "default": [],
+    "hint": "消息文本包含关键词（不区分大小写）时按该规则的概率回复。多条规则同时命中时取最高概率。",
+    "templates": {
+      "keyword": {
+        "name": "关键词规则",
+        "display_item": "keyword",
+        "items": {
+          "keyword": {
+            "description": "关键词",
+            "type": "string",
+            "default": "",
+            "hint": "消息文本包含该关键词（不区分大小写）即命中"
+          },
+          "possibility": {
+            "description": "回复概率",
+            "type": "float",
+            "default": 0.1,
+            "slider": {
+              "min": 0,
+              "max": 1,
+              "step": 0.01
+            }
+          }
+        }
+      }
+    }
+  },
+  "sender_rules": {
+    "description": "发送者规则",
+    "type": "template_list",
+    "default": [],
+    "hint": "消息发送者匹配时按该规则的概率回复。sender_id 与 nickname 至少填一个，填写的字段需全部匹配才命中。多条规则同时命中时取最高概率。",
+    "templates": {
+      "sender": {
+        "name": "发送者规则",
+        "items": {
+          "sender_id": {
+            "description": "发送者 ID（选填）",
+            "type": "string",
+            "default": "",
+            "hint": "群聊中发送 /sid 可查看自己的 ID。留空则忽略该条件。"
+          },
+          "nickname": {
+            "description": "昵称（选填）",
+            "type": "string",
+            "default": "",
+            "hint": "留空则忽略该条件。"
+          },
+          "possibility": {
+            "description": "回复概率",
+            "type": "float",
+            "default": 0.1,
+            "slider": {
+              "min": 0,
+              "max": 1,
+              "step": 0.01
+            }
+          }
+        }
+      }
+    }
+  }
+}
