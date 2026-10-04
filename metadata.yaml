@@ -1,4 +1,4 @@
 name: astrbot_plugin_active_reply
 desc: 按关键词和发送者（ID/昵称）规则，以可配置概率主动回复群聊消息。回复内容由 LLM 生成，判定与回复流程参照内置 active_reply 实现。
 author: Fnk7
-version: 1.0.0
+version: 1.1.0
