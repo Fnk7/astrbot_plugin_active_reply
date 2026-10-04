@@ -1,0 +1,16 @@
+{
+  "astrbot_plugin_active_reply": {
+    "display_name": "主动回复",
+    "desc": "按关键词和发送者（ID/昵称）规则，以可配置概率主动回复群聊消息。回复由 LLM 生成，并支持读空气拦截：触发后 LLM 依据会话上下文判断是否适合插话，可在同一轮 LLM 调用内拒绝本次回复。",
+    "author": "Fnk7",
+    "repo": "https://github.com/Fnk7/astrbot_plugin_active_reply",
+    "tags": [
+      "主动回复",
+      "群聊",
+      "概率",
+      "读空气"
+    ],
+    "version": "v1.1.0",
+    "updated_at": "2026-10-04T09:15:00Z"
+  }
+}
