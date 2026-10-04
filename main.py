@@ -200,17 +200,16 @@ class ActiveReply(Star):
 
     @filter.on_llm_response()
     async def on_llm_response(self, event: AstrMessageEvent, response) -> None:
-        """兜底：若本轮被读空气拦截，清空回复内容，保证什么都不发送。"""
+        """主动回复轮结束：复位标记；若被读空气拦截则清空回复内容兜底。"""
         try:
             if not event.get_extra("_active_reply_turn", False):
                 return
-            if not event.get_extra("_active_reply_intercepted", False):
-                return
-            response.completion_text = ""
-            if response.result_chain is None:
-                response.result_chain = MessageChain()
-            else:
-                response.result_chain.chain = []
+            if event.get_extra("_active_reply_intercepted", False):
+                response.completion_text = ""
+                if response.result_chain is None:
+                    response.result_chain = MessageChain()
+                else:
+                    response.result_chain.chain = []
             event.set_extra("_active_reply_turn", False)
             event.set_extra("_active_reply_intercepted", False)
         except Exception:

@@ -199,3 +199,16 @@ def test_on_llm_response_untouched_when_not_intercepted():
     asyncio.run(plugin.on_llm_response(event, resp))
     assert resp.completion_text == "本不该说的话"
     assert resp.result_chain.chain != []
+
+
+def test_on_llm_response_resets_flags_when_not_intercepted():
+    # 非拦截的主动回复轮完成后也必须复位标记，避免事件状态残留
+    plugin = _make_plugin()
+    event = _flagged_event(turn=True, intercepted=False)
+    resp = _fake_response()
+
+    asyncio.run(plugin.on_llm_response(event, resp))
+    event.set_extra.assert_any_call("_active_reply_turn", False)
+    event.set_extra.assert_any_call("_active_reply_intercepted", False)
+    # 回复内容不受影响
+    assert resp.completion_text == "本不该说的话"
